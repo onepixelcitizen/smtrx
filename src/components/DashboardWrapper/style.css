@@ -1,0 +1,15 @@
+.dash-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  min-width: 320px;
+  max-width: 1024px;
+  margin: 0 auto;
+  color: white;
+}
+
+@media screen and (min-width: 580px) {
+  .dash-wrapper {
+    flex-direction: row;
+  }
+}

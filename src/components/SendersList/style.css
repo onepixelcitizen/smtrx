@@ -1,0 +1,49 @@
+#sender-list {
+  padding: 10px;
+}
+
+@media screen and (min-width: 580px) {
+  #sender-list {
+    width: 320px;
+  }
+}
+
+#sender-list ul li {
+  position: relative;
+  margin: 5% 0;
+  padding: 10px;
+  background-color: #464d5b;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#sender-list ul li span {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 2;
+  background-color: #0295ff;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  border-radius: 2px;
+}
+
+#sender-list ul li:hover,
+#sender-list ul li.is-active {
+  color: #181818;
+  background-color: aliceblue;
+}
+
+#sender-list ul li:hover span,
+#sender-list ul li.is-active span {
+  color: #fff;
+  background: orangered;
+}
+
+#sender-list ul li:first-of-type {
+  margin: 0;
+}
