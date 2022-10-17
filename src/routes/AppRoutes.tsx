@@ -10,7 +10,7 @@ const AppRoutes: FC = () => {
   const matchedRoutes = matchRoutes(routes, location);
   const appRoutes = useRoutes(routes, location);
 
-  const Wrapper = (matchedRoutes?.[0]?.route as any)?.wrapper || Fragment;
+  const Wrapper = matchedRoutes?.[0]?.route?.wrapper || Fragment;
 
   return (
     <ErrorBoundary>

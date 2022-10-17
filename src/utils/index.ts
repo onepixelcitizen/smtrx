@@ -33,8 +33,20 @@ export const deleteAuthToken = (): void => {
   deleteCookie(AUTH_COOKIE_NAME);
 };
 
-export const groupBy = (arr: {}[], key: any) =>
-  arr?.reduce((p: any, c: any) => {
-    (p[c[key]] = p[c[key]] || []).push(c);
-    return p;
-  }, {});
+export interface IPost {
+  id: string;
+  from_name: string;
+  from_id: string;
+  message: string;
+  type: string;
+  created_time: string;
+}
+
+export const groupBy = (arr: Record<string, string>[], key: string) =>
+  arr?.reduce(
+    (p: { [key: string]: IPost[] }, c: { [x: string]: string | number }) => {
+      (p[c[key]] = p[c[key]] || []).push(c as unknown as IPost);
+      return p;
+    },
+    {},
+  );

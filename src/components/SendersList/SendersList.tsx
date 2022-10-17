@@ -1,11 +1,13 @@
-import { FC, useCallback, useState } from "react";
+import { ChangeEvent, FC, useCallback, useState } from "react";
+
+import { IPost } from "utils";
 
 import "./style.css";
 
 interface ISenders {
-  senders: { [key: string]: [] };
+  senders: { [key: string]: IPost[] };
   sortedSenders: string[];
-  cb: (name: any) => void;
+  cb: (name: string) => void;
 }
 const SendersList: FC<ISenders> = ({ sortedSenders, senders, cb }) => {
   const [isActive, setIsActive] = useState<string>(sortedSenders[0]);
@@ -13,8 +15,8 @@ const SendersList: FC<ISenders> = ({ sortedSenders, senders, cb }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const searchUsers = useCallback(
-    (e: any) => {
-      const search = [...sortedSenders].filter((u: any) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const search = [...sortedSenders].filter((u: string) => {
         return u.toLowerCase().includes(e.target?.value.toLowerCase());
       });
       setSearchInput(e.target?.value);

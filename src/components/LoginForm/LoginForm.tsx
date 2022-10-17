@@ -9,9 +9,13 @@ import { setAuthToken } from "utils";
 
 import "./style.css";
 
-interface ILoginForm {
+export interface ILoginForm {
   name: string;
   email: string;
+}
+
+interface IResponse {
+  response: { data: { error: { code: string } } };
 }
 
 const LoginForm: FC = () => {
@@ -29,16 +33,15 @@ const LoginForm: FC = () => {
 
   const handleClick: SubmitHandler<ILoginForm> = formData => {
     mutate(
-      { client_id: "ju16a6m81mhid5ue1z3v2g0uh", ...formData },
+      { client_id: String(process.env.REACT_APP_CLIENT_ID), ...formData },
       {
         onSettled: data => {
           setAuthToken(data?.data.data.sl_token);
           dispatch({ type: ActionType.SET_AUTH, payload: { isAuth: true } });
           navigate("/dashboard");
         },
-        onError: (error: any) => {
-          console.error(error?.response?.data?.error?.code);
-        },
+        onError: error =>
+          console.error((error as IResponse)?.response?.data?.error?.code),
       },
     );
   };

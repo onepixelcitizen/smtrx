@@ -1,5 +1,11 @@
-import { FC } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FC, MouseEvent } from "react";
+import {
+  FieldErrorsImpl,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
+
+import { ILoginForm } from "components/LoginForm/LoginForm";
 
 import "./style.css";
 
@@ -12,10 +18,10 @@ interface IInput {
   id: string;
   label?: string;
   type: keyof typeof InputTypeOptions;
-  onClick?: (e: any) => void;
-  register?: UseFormRegister<any>;
-  validation?: any;
-  errors?: any;
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
+  register?: UseFormRegister<ILoginForm>;
+  validation?: RegisterOptions;
+  errors?: FieldErrorsImpl<ILoginForm>;
 }
 
 const Input: FC<IInput> = ({
@@ -34,9 +40,15 @@ const Input: FC<IInput> = ({
       ) : (
         <div className="input-wrapper">
           <label htmlFor={id}>{label}</label>
-          <input type="text" id={id} {...register?.(id, validation)} />
-          {errors?.[id] && (
-            <i className="error-message">{errors[id].message}</i>
+          <input
+            type="text"
+            id={id}
+            {...register?.(id as keyof ILoginForm, validation)}
+          />
+          {errors?.[id as keyof ILoginForm] && (
+            <i className="error-message">
+              {errors?.[id as keyof ILoginForm]?.message}
+            </i>
           )}
         </div>
       )}

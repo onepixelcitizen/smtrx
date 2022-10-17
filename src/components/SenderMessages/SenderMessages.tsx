@@ -1,10 +1,12 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
+
+import { IPost } from "utils";
 
 import "./style.css";
 
 interface ISenderMessages {
-  senderMessages: {}[];
+  senderMessages: IPost[];
   cb: (pageId: number) => void;
 }
 
@@ -14,20 +16,22 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const sortDSC = [...userMessages].sort(
-    (x: any, y: any) =>
+    (x, y) =>
       Number(new Date(y.created_time)) - Number(new Date(x.created_time)),
   );
 
   const sortASC = [...userMessages].sort(
-    (x: any, y: any) =>
+    (x, y) =>
       Number(new Date(x.created_time)) - Number(new Date(y.created_time)),
   );
 
   const searchTerm = useCallback(
-    (e: any) => {
-      const searchTerm = [...senderMessages].filter((o: any) => {
-        return o.message.includes(e.target?.value);
-      });
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const searchTerm = [...senderMessages].filter(
+        (o: { message: string }) => {
+          return o.message.includes(e.target?.value);
+        },
+      );
       setSearchInput(e.target?.value);
       sortUserMessages(searchTerm);
     },
@@ -57,7 +61,7 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
         </div>
       )}
 
-      {userMessages.map((i: any) => {
+      {userMessages.map(i => {
         return (
           <div className="sender-message" key={i.id}>
             <time>

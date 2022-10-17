@@ -2,9 +2,7 @@ import { FC } from "react";
 
 import "./style.css";
 
-interface ILoader {}
-
-const Loader: FC<ILoader> = () => {
+const Loader: FC = () => {
   return <div className="loader" />;
 };
 

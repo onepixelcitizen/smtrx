@@ -40,10 +40,9 @@ const initializeState = (token?: string): IState => ({
 const reducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
     case ActionType.SET_AUTH:
-      const isAuth = action.payload.isAuth;
       return {
         ...state,
-        isAuth,
+        isAuth: action.payload.isAuth,
       };
     case ActionType.SET_LOADING:
       return { ...state, isLoading: action.payload.isLoading };

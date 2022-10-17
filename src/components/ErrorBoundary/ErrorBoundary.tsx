@@ -16,7 +16,10 @@ const ErrorFallback: FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
 
 const ErrorBoundary: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <ReactErrorBoundary FallbackComponent={ErrorFallback} onError={() => {}}>
+    <ReactErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={() => undefined}
+    >
       {children}
     </ReactErrorBoundary>
   );
