@@ -39,6 +39,7 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
   );
 
   useEffect(() => {
+    setSearchInput("");
     sortUserMessages(senderMessages);
   }, [senderMessages]);
 
@@ -50,13 +51,14 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
         <input
           type="search"
           placeholder="Search messages..."
+          value={searchInput}
           onChange={searchTerm}
         />
       </div>
 
       {userMessages.length === 0 && (
         <div className="sender-message">
-          🤔 Whoops looks like there is nothing matching
+          🤔 Whoops looks like there is nothing &nbsp;
           <span className="highlighter">{searchInput}</span>
         </div>
       )}
