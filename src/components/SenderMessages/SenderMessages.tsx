@@ -29,7 +29,7 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const searchTerm = [...senderMessages].filter(
         (o: { message: string }) => {
-          return o.message.includes(e.target?.value);
+          return o.message.includes(e.target?.value.toLowerCase());
         },
       );
       setSearchInput(e.target?.value);
