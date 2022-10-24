@@ -137,6 +137,14 @@ time span {
   right: 0;
 }
 
+time span:nth-child(1) {
+  top: 0px;
+  right: 35px;
+  color: #0695ff;
+  font-weight: 400;
+  font-style: italic;
+}
+
 [type="search"] {
   position: relative;
   padding: 5px 15px;

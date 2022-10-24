@@ -6,25 +6,33 @@ import { groupBy } from "utils";
 
 const Dashboard: FC = () => {
   const [page, setPage] = useState(1);
+  const [senderName, setSenderName] = useState("");
   const { data, isLoading } = usePosts(page);
   const { posts } = data?.data?.data || [];
 
   const senders = useMemo(() => groupBy(posts, "from_name") || [], [posts]);
   const sortedSenders = Object.keys(senders).sort();
 
-  const [senderMessages, setSenderMessages] = useState([
-    ...(senders[sortedSenders[0]] || []),
-  ]);
+  const [senderMessages, setSenderMessages] = useState(
+    senders[sortedSenders[0]],
+  );
 
-  const showMessages = (name: string) => {
-    setSenderMessages(senders[name]);
-  };
+  const showMessages = (name: string) => setSenderName(name);
 
   useEffect(() => {
-    if (!isLoading) {
-      setSenderMessages(senders[Object.keys(senders).sort()[0]]);
+    setSenderMessages(senders[senderName]);
+  }, [senderName, senders]);
+
+  useEffect(() => {
+    if (!senderName) {
+      setSenderName(sortedSenders[0]);
+      setSenderMessages(senders[sortedSenders[0]]);
     }
-  }, [senders, isLoading]);
+  }, [sortedSenders[0], senderName, setSenderName]);
+
+  // useEffect(() => {
+  //   console.log(page);
+  // }, [page]);
 
   return (
     <>
@@ -37,7 +45,9 @@ const Dashboard: FC = () => {
             sortedSenders={sortedSenders}
             cb={showMessages}
           />
-          <SenderMessages senderMessages={senderMessages} cb={setPage} />
+          {senderMessages && (
+            <SenderMessages senderMessages={senderMessages} cb={setPage} />
+          )}
         </>
       )}
     </>

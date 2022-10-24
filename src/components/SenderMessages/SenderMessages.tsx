@@ -56,7 +56,7 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
 
       {userMessages.length === 0 && (
         <div className="sender-message">
-          🤔 Whoops looks like there is nothing matching{" "}
+          🤔 Whoops looks like there is nothing matching
           <span className="highlighter">{searchInput}</span>
         </div>
       )}
@@ -65,8 +65,10 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
         return (
           <div className="sender-message" key={i.id}>
             <time>
-              {new Date(i.created_time).toUTCString()} <span>💬</span>
+              {new Date(i.created_time).toUTCString()}{" "}
+              <span>{i.from_name}</span> <span>💬</span>
             </time>
+
             <Highlighter
               highlightClassName="highlighter"
               searchWords={[searchInput]}
