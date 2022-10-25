@@ -12,6 +12,11 @@ yarn && yarn start
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+## TODO 🛠️
+
+- Add API [Mocks](https://mswjs.io/)
+- Add Tests
+
 ## Learn More
 
 To learn React, check out the [React documentation](https://reactjs.org/).
