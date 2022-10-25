@@ -30,10 +30,6 @@ const Dashboard: FC = () => {
     }
   }, [sortedSenders[0], senderName, setSenderName]);
 
-  // useEffect(() => {
-  //   console.log(page);
-  // }, [page]);
-
   return (
     <>
       {isLoading ? (

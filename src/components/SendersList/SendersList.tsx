@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-import { IPost } from "utils";
+import { IPost, useDebounce } from "utils";
 
 import "./style.css";
 
@@ -13,24 +13,22 @@ const SendersList: FC<ISenders> = ({ sortedSenders, senders, cb }) => {
   const [isActive, setIsActive] = useState<string>(sortedSenders[0]);
   const [filteredSenders, setFilteredSenders] = useState(sortedSenders);
   const [searchInput, setSearchInput] = useState("");
+  const debouncedValue = useDebounce(searchInput, 500);
 
-  const searchUsers = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const search = [...sortedSenders].filter((u: string) => {
-        return u.toLowerCase().includes(e.target?.value.toLowerCase());
-      });
-      setSearchInput(e.target?.value);
-      setFilteredSenders(search);
-    },
-    [sortedSenders],
-  );
+  useEffect(() => {
+    const search = [...sortedSenders].filter((u: string) => {
+      return u.toLowerCase().includes(debouncedValue.toLowerCase());
+    });
+    setSearchInput(debouncedValue);
+    setFilteredSenders(search);
+  }, [debouncedValue]);
 
   return (
     <nav id="sender-list">
       <input
         type="search"
         placeholder="Filter by name..."
-        onChange={searchUsers}
+        onChange={e => setSearchInput(e.target.value)}
       />
       {filteredSenders.length === 0 && (
         <div>

@@ -1,5 +1,7 @@
 import Cookies, { CookieAttributes } from "js-cookie";
 
+import { useEffect, useState } from "react";
+
 const AUTH_COOKIE_NAME = "smtrx-auth";
 
 const setCookie = (
@@ -50,3 +52,16 @@ export const groupBy = (arr: Record<string, string>[], key: string) =>
     },
     {},
   );
+
+export const useDebounce = (value: unknown, delay: number): string => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue as string;
+};

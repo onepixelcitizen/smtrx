@@ -1,7 +1,7 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 
-import { IPost } from "utils";
+import { IPost, useDebounce } from "utils";
 
 import "./style.css";
 
@@ -14,6 +14,7 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
   const [isActive, setIsActive] = useState(1);
   const [userMessages, sortUserMessages] = useState(senderMessages);
   const [searchInput, setSearchInput] = useState("");
+  const debouncedValue = useDebounce(searchInput, 1000);
 
   const sortDSC = [...userMessages].sort(
     (x, y) =>
@@ -25,18 +26,15 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
       Number(new Date(x.created_time)) - Number(new Date(y.created_time)),
   );
 
-  const searchTerm = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const searchTerm = [...senderMessages].filter(
-        (o: { message: string }) => {
-          return o.message.includes(e.target?.value.toLowerCase());
-        },
-      );
-      setSearchInput(e.target?.value);
-      sortUserMessages(searchTerm);
-    },
-    [senderMessages],
-  );
+  useEffect(() => {
+    const resultsContainingSearchTerm = [...senderMessages].filter(
+      (o: { message: string }) => {
+        return o.message.includes(debouncedValue.toLowerCase());
+      },
+    );
+
+    sortUserMessages(resultsContainingSearchTerm);
+  }, [debouncedValue]);
 
   useEffect(() => {
     setSearchInput("");
@@ -52,7 +50,9 @@ const SenderMessages: FC<ISenderMessages> = ({ senderMessages, cb }) => {
           type="search"
           placeholder="Search messages..."
           value={searchInput}
-          onChange={searchTerm}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearchInput(e.target.value)
+          }
         />
       </div>
 
